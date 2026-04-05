@@ -1,0 +1,156 @@
+# ══════════════════════════════════════════════════════════════
+#  NC Ecosystem — .gitignore
+#  Public repos: nc-lang, nc-ui, nc-ai-sdk, nc-apps
+#  Everything proprietary lives in _private/ (always ignored)
+# ══════════════════════════════════════════════════════════════
+
+# ── Private directory (all proprietary code, models, docs) ──
+_private/
+
+# ── Build artifacts ──
+**/build/
+*.o
+*.obj
+*.ll
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
+# ── Coverage and profiling ──
+*.gcda
+*.gcno
+*.gcov
+*.profraw
+*.profdata
+*.prof
+coverage/
+coverage.*
+*.trace
+
+# ── Python ──
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+dist/
+.venv/
+venv/
+
+# ── Node / VS Code extension ──
+node_modules/
+editor/vscode/node_modules/
+editor/vscode/*.vsix
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── NC package/runtime artifacts ──
+.nc_packages/
+.nc_cache/
+*.ncpkg
+nc.pkg.lock
+
+# ── IDE ──
+.cursor/
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.history/
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Environment / secrets ──
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.secret
+*.token
+
+# ── Kubernetes secrets ──
+**/k8s/secret.yaml
+**/k8s/secret*.yaml
+
+# ── Test reports ──
+nc_*_report.json
+
+# ── Claude Code / AI assistant ──
+.claude/
+.claude*
+
+# ── Dev-only files ──
+CONTINUE_PROMPT.md
+
+# ── Model weights and training artifacts ──
+*.bin
+*.nct
+*.nctok
+*.pkl
+*.npy
+*.tar.gz
+
+# ── NOVA runtime plugin (distributed separately) ──
+nc_nova_runtime.dll
+libncnovaruntime.so
+libncnovaruntime.dylib
+
+# ── Log files ──
+*.log
+logs/
+
+# ── Backup files ──
+*.bak
+
+# ── NC Lang: Proprietary engine files (should not exist in public) ──
+nc-lang/engine/src/nc_nova.c
+nc-lang/engine/src/nc_nova.h
+nc-lang/engine/src/nc_cortex.c
+nc-lang/engine/src/nc_cortex.h
+nc-lang/engine/src/nc_nova_reasoning.c
+nc-lang/engine/src/nc_nova_reasoning.h
+nc-lang/engine/src/nc_model.c
+nc-lang/engine/src/nc_model.h
+nc-lang/engine/src/nc_training.c
+nc-lang/engine/src/nc_training.h
+nc-lang/engine/src/nc_tokenizer.c
+nc-lang/engine/src/nc_tokenizer.h
+nc-lang/engine/src/nc_jit.c
+nc-lang/engine/src/nc_jit.h
+nc-lang/engine/src/nc_metal.m
+nc-lang/engine/src/nc_metal.h
+nc-lang/engine/src/nc_crypto.c
+nc-lang/engine/src/nc_crypto.h
+
+# ── NC Lang: Model binaries ──
+nc-lang/engine/nova_model.bin
+nc-lang/engine/nc_ai_model.bin
+nc-lang/engine/nc_ai_model_prod.bin
+
+# ── NC UI: Enterprise features (paid tier) ──
+nc-ui/enterprise/
+
+# ── NC Apps: Backend algorithms ──
+nc-apps/stock-market/backend/
+nc-apps/world-model/backend/
+
+# ── Electron desktop app ──
+**/desktop/node_modules/
+**/desktop/dist/
+**/desktop/out/
+
+# ── Root-level artifacts that should not be committed ──
+pip_install.log
+nc_ai_model_prod.bin
+nc_ai_tokenizer.bin
+training_logs/
