@@ -1,0 +1,48 @@
+name: NC AI SDK CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-sdk-files:
+    name: Validate SDK structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify critical SDK files exist
+        run: |
+          FAILED=0
+          for f in sdk/nc_ai_api.nc sdk/server.nc cli/chat.nc README.md LICENSE; do
+            if [ -f "$f" ]; then
+              echo "  OK  $f"
+            else
+              echo "  MISSING  $f"
+              FAILED=1
+            fi
+          done
+          exit $FAILED
+
+      - name: Validate example specs exist
+        run: |
+          count=$(find examples -type f | wc -l)
+          echo "Found $count example files"
+          test "$count" -gt 0
+
+  docs-check:
+    name: Documentation completeness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify documentation
+        run: |
+          for f in docs/ARCHITECTURE.md docs/USER_MANUAL.md README.md CHANGELOG.md; do
+            if [ -f "$f" ]; then
+              echo "  OK  $f"
+            else
+              echo "  WARN  Missing $f"
+            fi
+          done
