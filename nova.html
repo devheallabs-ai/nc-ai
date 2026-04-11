@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NC AI - Neural Optimized Vector Architecture | DevHeal Labs AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--cyan:#00d4ff;--purple:#7c3aed;--pink:#c026d3;--glass:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);--text:#e2e8f0;--muted:#94a3b8;--radius:16px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:100px 0}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;text-align:center;margin-bottom:16px;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-sub{text-align:center;color:var(--muted);max-width:600px;margin:0 auto 60px;font-size:1.05rem}
+.glass{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+a{color:var(--cyan);text-decoration:none}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 70%);pointer-events:none}
+.hero-title{font-size:clamp(4rem,12vw,8rem);font-weight:900;letter-spacing:-.04em;line-height:1;background:linear-gradient(135deg,var(--cyan),var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.hero-tagline{font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:600;color:var(--text);margin-bottom:8px}
+.hero-sub{font-size:clamp(.95rem,2vw,1.15rem);color:var(--cyan);font-weight:500;margin-bottom:40px;letter-spacing:.5px}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-weight:600;font-size:1rem;transition:all .3s;cursor:pointer;border:none;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;box-shadow:0 0 30px rgba(0,212,255,.2)}
+.btn-primary:hover{box-shadow:0 0 50px rgba(0,212,255,.4);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--cyan);border:1px solid var(--cyan)}
+.btn-outline:hover{background:rgba(0,212,255,.1);transform:translateY(-2px)}
+.hero-brand{color:var(--muted);font-size:.95rem;font-weight:500}
+.hero-brand span{color:var(--purple);font-weight:700}
+
+/* Comparison Table */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{padding:14px 20px;text-align:left;border-bottom:1px solid var(--border);font-size:.95rem}
+th{color:var(--muted);font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+td:first-child{color:var(--text);font-weight:500}
+td:nth-child(2){color:var(--cyan);font-weight:600}
+td:nth-child(3){color:var(--muted)}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
+.badge-nova{background:rgba(0,212,255,.12);color:var(--cyan)}
+.badge-llm{background:rgba(148,163,184,.1);color:var(--muted)}
+
+/* Architecture Flow */
+.arch-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.arch-node{padding:18px 24px;text-align:center;min-width:130px;transition:all .3s}
+.arch-node:hover{border-color:var(--cyan);box-shadow:0 0 25px rgba(0,212,255,.15);transform:translateY(-4px)}
+.arch-node strong{display:block;font-size:.95rem;color:var(--cyan);margin-bottom:4px}
+.arch-node span{font-size:.78rem;color:var(--muted)}
+.arch-arrow{color:var(--purple);font-size:1.5rem;font-weight:700;flex-shrink:0}
+
+/* Cards Grid */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.grid-5{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.card{padding:28px;transition:all .3s}
+.card:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 8px 40px rgba(124,58,237,.1)}
+.card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.5}
+.card .speed{display:inline-block;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--cyan);background:rgba(0,212,255,.08);padding:4px 12px;border-radius:20px}
+.card .icon{font-size:1.6rem;margin-bottom:12px}
+
+/* Code Block */
+.code-wrap{max-width:750px;margin:0 auto}
+.code-block{padding:28px;font-family:'JetBrains Mono',monospace;font-size:.88rem;line-height:1.9;overflow-x:auto;position:relative}
+.code-block .comment{color:var(--muted)}
+.code-block .cmd{color:var(--cyan)}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;font-size:.85rem;color:var(--muted)}
+.code-header+.code-block{border-radius:0 0 var(--radius) var(--radius)}
+.copy-btn{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);padding:5px 14px;border-radius:8px;cursor:pointer;font-size:.8rem;font-family:inherit;transition:all .2s}
+.copy-btn:hover{color:var(--cyan);border-color:var(--cyan)}
+
+/* Pricing */
+.tier{padding:32px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.tier.featured{border-color:var(--purple);box-shadow:0 0 40px rgba(124,58,237,.15)}
+.tier.featured::before{content:'POPULAR';position:absolute;top:16px;right:-30px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;font-size:.7rem;font-weight:700;padding:4px 36px;transform:rotate(45deg);letter-spacing:.5px}
+.tier h3{font-size:1.3rem;font-weight:700;margin-bottom:4px}
+.tier .price{font-size:2rem;font-weight:800;margin:16px 0 4px;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tier .period{font-size:.85rem;color:var(--muted);margin-bottom:20px}
+.tier ul{list-style:none;flex:1;margin-bottom:24px}
+.tier li{padding:6px 0;font-size:.9rem;color:var(--muted)}
+.tier li::before{content:"\2713 ";color:var(--cyan);font-weight:700;margin-right:6px}
+.tier .btn{width:100%;justify-content:center;text-align:center}
+
+/* Model Sizes */
+.model-table td:nth-child(2),.model-table td:nth-child(3),.model-table td:nth-child(4){font-family:'JetBrains Mono',monospace;font-size:.88rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center}
+footer p{color:var(--muted);font-size:.88rem;margin:4px 0}
+footer .brand{font-weight:700;color:var(--purple);font-size:1rem}
+
+@media(max-width:768px){
+  section{padding:60px 0}
+  .arch-flow{flex-direction:column}
+  .arch-arrow{transform:rotate(90deg)}
+  .grid-2,.grid-3,.grid-5{grid-template-columns:1fr}
+  .tier.featured::before{top:12px;right:-34px;font-size:.65rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+<div class="container">
+  <h1 class="hero-title">NC AI</h1>
+  <p class="hero-tagline">Neural Optimized Vector Architecture &mdash; v1.0</p>
+  <p class="hero-sub">World's First Hybrid SSM-Graph ML Model &mdash; ~5M parameters, 800&ndash;5,000 tok/s on CPU</p>
+  <div class="hero-ctas">
+    <a href="#quickstart" class="btn btn-primary">Get Started</a>
+    <a href="#architecture" class="btn btn-outline">View Patent</a>
+  </div>
+  <p class="hero-brand">By <span>DevHeal Labs AI</span></p>
+</div>
+</section>
+
+<!-- Comparison -->
+<section id="comparison">
+<div class="container">
+  <h2 class="reveal">NC AI vs Traditional LLMs</h2>
+  <p class="section-sub reveal">A fundamental shift in ML architecture delivering faster, cheaper, and more private inference.</p>
+  <div class="table-wrap glass reveal" style="border-radius:var(--radius);overflow:hidden">
+  <table>
+    <thead><tr><th>Metric</th><th>NC AI</th><th>Traditional LLMs</th></tr></thead>
+    <tbody>
+      <tr><td>Architecture</td><td><span class="badge badge-nova">Hybrid SSM-Graph</span></td><td><span class="badge badge-llm">Transformer</span></td></tr>
+      <tr><td>Complexity</td><td>O(n)</td><td>O(n&sup2;)</td></tr>
+      <tr><td>Training Time</td><td>1 &ndash; 72 hours</td><td>Weeks &ndash; Months</td></tr>
+      <tr><td>Training Cost</td><td>$0 &ndash; $500</td><td>$1M &ndash; $100M+</td></tr>
+      <tr><td>Inference Speed</td><td>800 &ndash; 5,000 tok/s</td><td>30 &ndash; 120 tok/s</td></tr>
+      <tr><td>API Cost / 1M tokens</td><td>$0.001</td><td>$0.50 &ndash; $60</td></tr>
+      <tr><td>Data Privacy</td><td>100% Local</td><td>Cloud Dependent</td></tr>
+      <tr><td>Hardware</td><td>CPU / Edge</td><td>GPU Clusters</td></tr>
+      <tr><td>Mobile Ready</td><td><span class="badge badge-nova">Yes</span></td><td><span class="badge badge-llm">No</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</section>
+
+<!-- Architecture -->
+<section id="architecture">
+<div class="container">
+  <h2 class="reveal">Architecture Flow</h2>
+  <p class="section-sub reveal">A linear-time pipeline combining state-space models with graph-based knowledge retrieval.</p>
+  <div class="arch-flow reveal">
+    <div class="arch-node glass"><strong>Input</strong><span>Tokenization</span></div>
+    <span class="arch-arrow">&rarr;</span>
+    <div class="arch-node glass"><strong>SSM</strong><span>State Space Model</span></div>
+    <span class="arch-arrow">&rarr;</span>
+    <div class="arch-node glass"><strong>Graph</strong><span>Knowledge Layer</span></div>
+    <span class="arch-arrow">&rarr;</span>
+    <div class="arch-node glass"><strong>FFN</strong><span>Feed-Forward</span></div>
+    <span class="arch-arrow">&rarr;</span>
+    <div class="arch-node glass"><strong>Template</strong><span>Rendering</span></div>
+    <span class="arch-arrow">&rarr;</span>
+    <div class="arch-node glass"><strong>Hebbian</strong><span>Learning Loop</span></div>
+    <span class="arch-arrow">&rarr;</span>
+    <div class="arch-node glass"><strong>Output</strong><span>Generation</span></div>
+  </div>
+</div>
+</section>
+
+<!-- Inference Modes -->
+<section id="modes">
+<div class="container">
+  <h2 class="reveal">11 Inference Modes</h2>
+  <p class="section-sub reveal">Purpose-built pipelines that activate only the layers needed, maximizing speed and efficiency.</p>
+  <div class="grid-3 reveal">
+    <div class="card glass"><div class="icon">&#9889;</div><h3>Token Generation</h3><p>Standard autoregressive text generation via SSM layers with linear-time complexity.</p><span class="speed">~5,000 tok/s</span></div>
+    <div class="card glass"><div class="icon">&#128300;</div><h3>Graph Reasoning</h3><p>Traverses the knowledge graph for multi-hop relational queries and entity lookups.</p><span class="speed">~3,200 tok/s</span></div>
+    <div class="card glass"><div class="icon">&#128196;</div><h3>Template Rendering</h3><p>Slot-fill generation using pre-defined templates for structured, repeatable outputs.</p><span class="speed">~4,800 tok/s</span></div>
+    <div class="card glass"><div class="icon">&#128256;</div><h3>Hybrid Mode</h3><p>Dynamically combines SSM + Graph + Template layers based on prompt analysis.</p><span class="speed">~2,500 tok/s</span></div>
+    <div class="card glass"><div class="icon">&#9998;</div><h3>Creative Writing</h3><p>Temperature-adjusted generation with Hebbian feedback for stylistic coherence.</p><span class="speed">~2,000 tok/s</span></div>
+    <div class="card glass"><div class="icon">&#127760;</div><h3>Translation</h3><p>Cross-lingual transfer using aligned vector spaces with graph-backed vocabulary.</p><span class="speed">~3,500 tok/s</span></div>
+    <div class="card glass" style="border:1px solid rgba(245,158,11,.3)"><div class="icon" style="color:#f59e0b">&#129504;</div><h3>Reason AI <span style="font-size:.7em;color:#f59e0b">NEW</span></h3><p>Logic-first reasoning engine. Classifies questions into 7 types (math, causal, debug, plan, compare, codegen, general), builds step-by-step chains, returns confidence scores. Zero cost, runs on your CPU &mdash; structured reasoning.</p><span class="speed">Reasoning Engine</span></div>
+    <div class="card glass" style="border:1px solid rgba(245,158,11,.3)"><div class="icon" style="color:#f59e0b">&#128279;</div><h3>Knowledge Graph <span style="font-size:.7em;color:#f59e0b">NEW</span></h3><p>Graph-based knowledge retrieval with BFS traversal, path scoring, and Hebbian learning. Builds and queries relational knowledge structures at inference time.</p><span class="speed">BFS + Hebbian</span></div>
+    <div class="card glass" style="border:1px solid rgba(245,158,11,.3)"><div class="icon" style="color:#f59e0b">&#9878;</div><h3>Decision Engine <span style="font-size:.7em;color:#f59e0b">NEW</span></h3><p>Q-learning combined with energy scoring for optimal action selection. Learns reward signals to rank decisions without neural network overhead.</p><span class="speed">Q-Learn + Energy</span></div>
+    <div class="card glass" style="border:1px solid rgba(245,158,11,.3)"><div class="icon" style="color:#f59e0b">&#128029;</div><h3>Swarm Intelligence <span style="font-size:.7em;color:#f59e0b">NEW</span></h3><p>Multi-agent voting with evolutionary adaptation. Independent agents propose solutions, vote on outcomes, and evolve strategies over time.</p><span class="speed">Multi-Agent Vote</span></div>
+    <div class="card glass" style="border:1px solid rgba(245,158,11,.3)"><div class="icon" style="color:#f59e0b">&#9889;</div><h3>Energy Scoring <span style="font-size:.7em;color:#f59e0b">NEW</span></h3><p>Physics-inspired Boltzmann scoring with entropy-based evaluation. Assigns energy values to candidate outputs for thermodynamically optimal selection.</p><span class="speed">Boltzmann + Entropy</span></div>
+  </div>
+</div>
+</section>
+
+<!-- Model Sizes -->
+<section id="models">
+<div class="container">
+  <h2 class="reveal">Model Sizes</h2>
+  <p class="section-sub reveal">From edge devices to enterprise servers, pick the model that fits your hardware.</p>
+  <div class="table-wrap glass reveal model-table" style="border-radius:var(--radius);overflow:hidden">
+  <table>
+    <thead><tr><th>Model</th><th>Parameters</th><th>RAM</th><th>Train Time</th></tr></thead>
+    <tbody>
+      <tr><td>NC AI-Micro</td><td>500K</td><td>50 MB</td><td>~1 hr</td></tr>
+      <tr><td>NC AI-Mini</td><td>5M</td><td>200 MB</td><td>~3 hrs</td></tr>
+      <tr><td>NC AI-Base</td><td>50M</td><td>512 MB</td><td>~6 hrs</td></tr>
+      <tr><td>NC AI-Medium</td><td>200M</td><td>1.5 GB</td><td>~12 hrs</td></tr>
+      <tr><td>NC AI-Large</td><td>1B</td><td>4 GB</td><td>~24 hrs</td></tr>
+      <tr><td>NC AI-XL</td><td>5B</td><td>12 GB</td><td>~48 hrs</td></tr>
+      <tr><td>NC AI-20B</td><td>20B</td><td>40 GB</td><td>~72 hrs</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</section>
+
+<!-- Use Cases -->
+<section id="usecases">
+<div class="container">
+  <h2 class="reveal">Use Cases</h2>
+  <p class="section-sub reveal">Production-ready capabilities across a wide range of natural language tasks.</p>
+  <div class="grid-5 reveal">
+    <div class="card glass"><h3>Summarize</h3><p>Condense long documents into key points.</p><span class="speed">~4,200 tok/s</span></div>
+    <div class="card glass"><h3>Email Draft</h3><p>Generate professional emails from prompts.</p><span class="speed">~4,800 tok/s</span></div>
+    <div class="card glass"><h3>Debug Code</h3><p>Identify and explain bugs in source code.</p><span class="speed">~3,000 tok/s</span></div>
+    <div class="card glass"><h3>Code Generation</h3><p>Produce functions, classes, and scripts.</p><span class="speed">~2,800 tok/s</span></div>
+    <div class="card glass"><h3>Creative Writing</h3><p>Stories, poems, and creative content.</p><span class="speed">~2,000 tok/s</span></div>
+    <div class="card glass"><h3>Translation</h3><p>Cross-lingual text conversion.</p><span class="speed">~3,500 tok/s</span></div>
+    <div class="card glass"><h3>Classification</h3><p>Categorize text into predefined labels.</p><span class="speed">~5,000 tok/s</span></div>
+    <div class="card glass" style="border:1px solid rgba(245,158,11,.3)"><h3>Reasoning</h3><p>Step-by-step logic chains with confidence scores via Reason AI.</p><span class="speed">7 types</span></div>
+    <div class="card glass"><h3>Comparison</h3><p>Analyze and contrast multiple inputs.</p><span class="speed">~3,200 tok/s</span></div>
+    <div class="card glass"><h3>Q&A</h3><p>Answer questions from context or knowledge.</p><span class="speed">~4,000 tok/s</span></div>
+    <div class="card glass"><h3>Root Cause</h3><p>Trace issues back to their origin.</p><span class="speed">~2,500 tok/s</span></div>
+  </div>
+</div>
+</section>
+
+<!-- Quick Start -->
+<section id="quickstart">
+<div class="container">
+  <h2 class="reveal">Quick Start</h2>
+  <p class="section-sub reveal">Get NC AI running in under a minute with the NC runtime.</p>
+  <div class="code-wrap reveal">
+    <div class="code-header glass"><span>Terminal</span><button class="copy-btn" onclick="copyCode()">Copy</button></div>
+    <div class="code-block glass" id="codeContent">
+<span class="comment"># Install NC runtime</span>
+<span class="cmd">curl -fsSL https://nc-lang.org/install | sh</span>
+
+<span class="comment"># Quick start with micro model</span>
+<span class="cmd">nc nc-ai/cortex/run_nova.nc quick_start micro</span>
+
+<span class="comment"># Run all demos</span>
+<span class="cmd">nc nc-ai/cortex/run_nova.nc demo_all</span>
+
+<span class="comment"># Start inference server</span>
+<span class="cmd">nc nc-ai/cortex/run_nova.nc serve</span></div>
+  </div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+  <p class="brand">NC AI by DevHeal Labs AI</p>
+  <p>Neural Optimized Vector Architecture</p>
+  <p>&copy; 2026 DevHeal Labs AI. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+// Scroll Reveal
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Copy code
+function copyCode(){
+  const lines=document.getElementById('codeContent').innerText;
+  navigator.clipboard.writeText(lines).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy',2000);
+  });
+}
+</script>
+</body>
+</html>

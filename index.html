@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NC AI — First Language With Built-in AI</title>
+<meta name="description" content="NC is the world's first programming language with a built-in AI model. Convert plain English into complete applications. No API keys. No cloud. Cross-platform. Hardware accelerated.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & BASE ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;
+  --bg2:#0e0e16;
+  --bg3:#12121c;
+  --cyan:#00d4ff;
+  --purple:#7c3aed;
+  --pink:#c026d3;
+  --text:#e0e0e8;
+  --text2:#9090a0;
+  --text3:#606070;
+  --grad:linear-gradient(135deg,#00d4ff,#7c3aed);
+  --grad2:linear-gradient(135deg,#7c3aed,#c026d3);
+  --glass:rgba(255,255,255,.04);
+  --glass-border:rgba(255,255,255,.08);
+  --radius:16px;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ============ UTILITY ============ */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section{padding:100px 0}
+.section-tag{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.75rem;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  color:var(--cyan);
+  margin-bottom:12px;
+  opacity:.8;
+}
+.section-title{
+  font-size:clamp(2rem,5vw,3rem);
+  font-weight:800;
+  margin-bottom:20px;
+  line-height:1.15;
+}
+.section-sub{
+  font-size:1.1rem;
+  color:var(--text2);
+  max-width:600px;
+  margin-bottom:50px;
+}
+.gradient-text{
+  background:var(--grad);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.center{text-align:center}
+.center .section-sub{margin-left:auto;margin-right:auto}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:16px 0;
+  background:rgba(10,10,15,.8);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--glass-border);
+  transition:padding .3s;
+}
+nav.scrolled{padding:10px 0}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-weight:900;font-size:1.3rem;display:flex;align-items:center;gap:8px}
+.nav-logo span{
+  background:var(--grad);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:var(--text2);font-size:.9rem;font-weight:500;text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:var(--cyan);text-decoration:none}
+.nav-cta{
+  padding:8px 20px;
+  background:var(--grad);
+  color:#fff !important;
+  border-radius:50px;
+  font-weight:600;
+  font-size:.85rem;
+  transition:box-shadow .3s,transform .3s;
+}
+.nav-cta:hover{box-shadow:0 0 25px rgba(0,212,255,.4);transform:translateY(-1px);text-decoration:none !important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);transition:all .3s}
+
+/* ============ HERO ============ */
+#hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding-top:80px;
+  overflow:hidden;
+}
+#heroCanvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
+.hero-content{position:relative;z-index:1;width:100%}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:50px;
+  padding:6px 18px 6px 8px;
+  font-size:.8rem;
+  color:var(--text2);
+  margin-bottom:28px;
+}
+.hero-badge-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--cyan);
+  animation:blink 2s ease infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:900;
+  line-height:1.05;
+  margin-bottom:24px;
+  max-width:900px;
+}
+.hero-title .line2{
+  background:linear-gradient(135deg,#00d4ff 0%,#7c3aed 40%,#c026d3 70%,#00d4ff 100%);
+  background-size:300% 300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:heroGrad 6s ease infinite;
+}
+@keyframes heroGrad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-desc{
+  font-size:clamp(1rem,2vw,1.25rem);
+  color:var(--text2);
+  max-width:650px;
+  margin-bottom:40px;
+  line-height:1.7;
+}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;
+  background:var(--grad);
+  color:#fff;border:none;border-radius:50px;
+  font-weight:700;font-size:1rem;cursor:pointer;
+  transition:transform .3s,box-shadow .3s;
+  text-decoration:none;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,212,255,.35);text-decoration:none}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  color:var(--text);border-radius:50px;
+  font-weight:600;font-size:1rem;cursor:pointer;
+  transition:all .3s;
+  text-decoration:none;
+}
+.btn-secondary:hover{border-color:var(--cyan);color:var(--cyan);text-decoration:none}
+.hero-glow{
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(0,212,255,.1),transparent 70%);
+  top:-100px;right:-200px;
+  pointer-events:none;
+  animation:float 8s ease-in-out infinite;
+}
+.hero-glow2{
+  position:absolute;
+  width:500px;height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.08),transparent 70%);
+  bottom:-200px;left:-100px;
+  pointer-events:none;
+  animation:float 10s ease-in-out infinite reverse;
+}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-30px)}}
+
+/* ============ HOW IT WORKS ============ */
+#how{background:var(--bg2)}
+.steps{display:flex;gap:0;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.step{flex:1;min-width:220px;max-width:300px;text-align:center;padding:30px 20px;position:relative}
+.step-num{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--glass);
+  border:2px solid var(--glass-border);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.3rem;font-weight:700;
+  color:var(--cyan);
+  transition:all .5s;
+}
+.step:hover .step-num{border-color:var(--cyan);box-shadow:0 0 30px rgba(0,212,255,.2)}
+.step-title{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.step-desc{color:var(--text2);font-size:.95rem}
+.step-arrow{
+  display:flex;align-items:center;justify-content:center;
+  padding-top:50px;
+  color:var(--cyan);
+  font-size:1.5rem;
+  opacity:.5;
+  animation:arrowPulse 2s ease infinite;
+}
+@keyframes arrowPulse{0%,100%{opacity:.3;transform:translateX(0)}50%{opacity:.8;transform:translateX(6px)}}
+
+/* ============ LIVE DEMO ============ */
+.demo-wrapper{max-width:750px;margin:0 auto}
+.terminal{
+  background:#0c0c14;
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.terminal-header{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 18px;
+  background:rgba(255,255,255,.03);
+  border-bottom:1px solid var(--glass-border);
+}
+.terminal-dot{width:12px;height:12px;border-radius:50%}
+.terminal-dot.r{background:#ff5f57}.terminal-dot.y{background:#ffbd2e}.terminal-dot.g{background:#28ca42}
+.terminal-title{margin-left:auto;font-size:.75rem;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.terminal-body{
+  padding:24px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.85rem;
+  line-height:1.8;
+  min-height:280px;
+  color:#a0a0b0;
+}
+.terminal-body .cmd{color:var(--cyan)}
+.terminal-body .success{color:#28ca42}
+.terminal-body .info{color:var(--purple)}
+.terminal-body .dim{color:#505060}
+.terminal-body .file{color:#f0c040}
+.cursor{
+  display:inline-block;width:8px;height:16px;
+  background:var(--cyan);
+  animation:cursorBlink 1s step-end infinite;
+  vertical-align:text-bottom;
+}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ============ ARCHITECTURE ============ */
+#arch{background:var(--bg2)}
+.arch-diagram{
+  max-width:900px;margin:0 auto;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  padding:50px 30px;
+  position:relative;
+  overflow:hidden;
+}
+.arch-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.arch-row:last-child{margin-bottom:0}
+.arch-box{
+  padding:14px 22px;
+  background:rgba(0,212,255,.06);
+  border:1px solid rgba(0,212,255,.15);
+  border-radius:12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--cyan);
+  text-align:center;
+  white-space:nowrap;
+  transition:all .4s;
+}
+.arch-box:hover{border-color:var(--cyan);box-shadow:0 0 25px rgba(0,212,255,.15)}
+.arch-box.purple{
+  background:rgba(124,58,237,.08);
+  border-color:rgba(124,58,237,.2);
+  color:var(--purple);
+}
+.arch-box.purple:hover{border-color:var(--purple);box-shadow:0 0 25px rgba(124,58,237,.15)}
+.arch-box.pink{
+  background:rgba(192,38,211,.06);
+  border-color:rgba(192,38,211,.15);
+  color:var(--pink);
+}
+.arch-box.pink:hover{border-color:var(--pink);box-shadow:0 0 25px rgba(192,38,211,.15)}
+.arch-box.green{
+  background:rgba(40,202,66,.06);
+  border-color:rgba(40,202,66,.15);
+  color:#28ca42;
+}
+.arch-box.green:hover{border-color:#28ca42;box-shadow:0 0 25px rgba(40,202,66,.15)}
+.arch-arrow{
+  color:var(--text3);
+  font-size:1.2rem;
+  animation:flowRight 2s ease infinite;
+}
+.arch-arrow.down{animation:flowDown 2s ease infinite}
+@keyframes flowRight{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes flowDown{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(3px)}}
+.arch-connector{
+  display:flex;justify-content:center;margin:12px 0;
+  color:var(--text3);font-size:1rem;
+}
+
+/* ============ FEATURES GRID ============ */
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:24px;
+}
+.feature-card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  padding:36px 30px;
+  transition:all .4s;
+  position:relative;
+  overflow:hidden;
+}
+.feature-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--grad);
+  opacity:0;transition:opacity .4s;
+}
+.feature-card:hover{border-color:rgba(0,212,255,.2);transform:translateY(-4px)}
+.feature-card:hover::before{opacity:1}
+.feature-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(0,212,255,.08);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+  font-size:1.5rem;
+}
+.feature-card:nth-child(2) .feature-icon{background:rgba(124,58,237,.08)}
+.feature-card:nth-child(3) .feature-icon{background:rgba(192,38,211,.08)}
+.feature-card:nth-child(4) .feature-icon{background:rgba(40,202,66,.08)}
+.feature-card:nth-child(5) .feature-icon{background:rgba(255,180,46,.08)}
+.feature-card:nth-child(6) .feature-icon{background:rgba(255,95,87,.08)}
+.feature-card h3{font-size:1.15rem;font-weight:700;margin-bottom:10px}
+.feature-card p{color:var(--text2);font-size:.95rem;line-height:1.6}
+
+/* ============ COMPARISON ============ */
+#compare{background:var(--bg2)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.compare-table{
+  width:100%;border-collapse:collapse;
+  font-size:.9rem;
+}
+.compare-table th,.compare-table td{
+  padding:16px 20px;
+  text-align:center;
+  border-bottom:1px solid var(--glass-border);
+}
+.compare-table th{
+  font-weight:700;
+  color:var(--text2);
+  font-size:.8rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.compare-table th:first-child,.compare-table td:first-child{text-align:left;font-weight:600}
+.compare-table th:nth-child(2){color:var(--cyan)}
+.compare-table tbody tr{transition:background .3s}
+.compare-table tbody tr:hover{background:rgba(0,212,255,.03)}
+.check{color:#28ca42;font-size:1.1rem;font-weight:700}
+.cross{color:#ff5f57;font-size:1.1rem}
+.nc-col{
+  background:rgba(0,212,255,.04);
+  border-left:2px solid rgba(0,212,255,.15);
+  border-right:2px solid rgba(0,212,255,.15);
+}
+.compare-table thead th.nc-col{border-top:2px solid rgba(0,212,255,.15)}
+.compare-table tbody tr:last-child td.nc-col{border-bottom:2px solid rgba(0,212,255,.15)}
+
+/* ============ GET STARTED ============ */
+.install-block{max-width:700px;margin:0 auto}
+.install-terminal{
+  background:#0c0c14;
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+}
+.install-header{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 18px;
+  background:rgba(255,255,255,.03);
+  border-bottom:1px solid var(--glass-border);
+}
+.install-body{
+  padding:24px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.85rem;
+  line-height:2;
+  position:relative;
+}
+.install-body code{color:#a0a0b0}
+.install-body .cmd{color:var(--cyan)}
+.install-body .comment{color:#505060}
+.copy-btn{
+  position:absolute;top:16px;right:16px;
+  background:var(--glass);border:1px solid var(--glass-border);
+  color:var(--text2);border-radius:8px;padding:8px 14px;
+  font-size:.75rem;font-family:'JetBrains Mono',monospace;
+  cursor:pointer;transition:all .3s;
+}
+.copy-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.copy-btn.copied{border-color:#28ca42;color:#28ca42}
+
+/* ============ ECOSYSTEM ============ */
+#ecosystem{background:var(--bg2)}
+.eco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1100px;margin:0 auto}
+.eco-card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  padding:36px 30px;
+  text-align:center;
+  transition:all .4s;
+  position:relative;
+}
+.eco-card:hover{transform:translateY(-4px);border-color:rgba(0,212,255,.2)}
+.eco-card h3{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.eco-card .eco-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.75rem;
+  color:var(--text3);
+  margin-bottom:16px;
+  display:block;
+}
+.eco-card p{color:var(--text2);font-size:.95rem}
+.eco-card:nth-child(1) h3{color:var(--cyan)}
+.eco-card:nth-child(2) h3{color:var(--purple)}
+.eco-card:nth-child(3) h3{
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.eco-card:nth-child(4) h3{color:#f59e0b}
+.eco-card:nth-child(5) h3{color:#c026d3}
+.eco-card:nth-child(6) h3{color:#22d3ee}
+.eco-card:nth-child(7) h3{color:#34d399}
+.eco-card:nth-child(8) h3{color:#fb923c}
+.eco-card:nth-child(9) h3{color:#f472b6}
+.eco-card:nth-child(10) h3{color:#6366f1}
+.eco-connectors{
+  display:flex;justify-content:center;gap:40px;
+  margin-bottom:30px;
+  color:var(--text3);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.85rem;
+}
+
+/* ============ FOOTER ============ */
+footer{
+  padding:60px 0 40px;
+  border-top:1px solid var(--glass-border);
+  background:var(--bg);
+}
+.footer-content{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px}
+.footer-brand{max-width:340px}
+.footer-brand h3{font-size:1.2rem;font-weight:800;margin-bottom:8px}
+.footer-brand h3 span{
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.footer-brand p{color:var(--text3);font-size:.9rem;line-height:1.6}
+.footer-links{display:flex;gap:60px;flex-wrap:wrap}
+.footer-col h4{font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--text3);margin-bottom:16px;font-weight:700}
+.footer-col a{display:block;color:var(--text2);font-size:.9rem;margin-bottom:10px;transition:color .3s;text-decoration:none}
+.footer-col a:hover{color:var(--cyan)}
+.footer-bottom{
+  margin-top:50px;padding-top:24px;
+  border-top:1px solid var(--glass-border);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  color:var(--text3);font-size:.8rem;
+}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:768px){
+  .nav-links{
+    position:fixed;top:0;right:-100%;width:280px;height:100vh;
+    flex-direction:column;padding:80px 30px 30px;gap:20px;
+    background:var(--bg);border-left:1px solid var(--glass-border);
+    transition:right .3s;z-index:99;
+  }
+  .nav-links.open{right:0}
+  .hamburger{display:flex;z-index:100}
+  .hero-title{font-size:clamp(2.2rem,8vw,3.5rem)}
+  .steps{flex-direction:column;align-items:center}
+  .step-arrow{transform:rotate(90deg);padding:10px 0}
+  .features-grid{grid-template-columns:1fr}
+  .eco-grid{grid-template-columns:1fr}
+  .footer-content{flex-direction:column}
+  .footer-links{gap:30px}
+  .arch-row{gap:8px}
+  .arch-box{padding:10px 14px;font-size:.7rem}
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#1e1e2e}
+</style>
+</head>
+<body>
+
+<!-- ======== NAV ======== -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-logo">
+      <img src="logo.png" alt="NC AI" style="width:28px;height:28px;object-fit:contain">
+      <span>NC AI</span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#how">How It Works</a>
+      <a href="#demo">Demo</a>
+      <a href="#ai-create" style="color:var(--cyan);font-weight:700">nc ai create</a>
+      <a href="#features">Features</a>
+      <a href="#reason" style="color:#f59e0b;font-weight:700">Reason AI</a>
+      <a href="#nc-native" style="color:#10b981;font-weight:700">NC-Native</a>
+      <a href="#compare">Compare</a>
+      <a href="#start" class="nav-cta">Get Started</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ======== HERO ======== -->
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      NC AI v1.0.0 &mdash; World's First Language With Built-in AI
+    </div>
+    <h1 class="hero-title">
+      NC AI &mdash;<br>
+      <span class="line2">Agentic AI, English to Apps, Instantly</span>
+    </h1>
+    <p class="hero-desc">
+      Zero cost. Zero cloud. Zero GPU. NC includes NC AI &mdash; your own AI that runs locally on your CPU. $0/month, no API keys, no subscriptions, no cloud dependency. Describe what you want in plain English, get a complete NC application. Train in hours on your laptop, not months on GPU clusters. You own your AI.
+    </p>
+    <div class="hero-buttons">
+      <a href="#start" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        Get Started
+      </a>
+      <a href="#demo" class="btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Watch Demo
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======== HOW IT WORKS ======== -->
+<section id="how" class="section">
+  <div class="container center">
+    <div class="section-tag reveal">// process</div>
+    <h2 class="section-title reveal">How It Works</h2>
+    <p class="section-sub reveal">Three steps from idea to running application.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3 class="step-title">Describe</h3>
+        <p class="step-desc">Write what you want in plain English or hand it a spec document.</p>
+      </div>
+      <div class="step-arrow reveal">&rarr;</div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h3 class="step-title">Generate</h3>
+        <p class="step-desc">NC AI creates the backend, frontend, and test files automatically.</p>
+      </div>
+      <div class="step-arrow reveal">&rarr;</div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h3 class="step-title">Run</h3>
+        <p class="step-desc">Working NC backend + NC UI frontend, ready to deploy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== LIVE DEMO ======== -->
+<section id="demo" class="section">
+  <div class="container center">
+    <div class="section-tag reveal">// demo</div>
+    <h2 class="section-title reveal">See It In Action</h2>
+    <p class="section-sub reveal">Watch NC AI generate a complete application from a single sentence.</p>
+    <div class="demo-wrapper reveal">
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="terminal-dot r"></span>
+          <span class="terminal-dot y"></span>
+          <span class="terminal-dot g"></span>
+          <span class="terminal-title">nc ai &mdash; terminal</span>
+        </div>
+        <div class="terminal-body" id="terminalBody">
+          <span class="cursor" id="termCursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== ARCHITECTURE ======== -->
+<section id="arch" class="section">
+  <div class="container center">
+    <div class="section-tag reveal">// architecture</div>
+    <h2 class="section-title reveal">Under The Hood</h2>
+    <p class="section-sub reveal">A complete pipeline from natural language to executable NC code.</p>
+    <div class="arch-diagram reveal">
+      <div class="arch-row">
+        <div class="arch-box">English Description</div>
+        <span class="arch-arrow">&rarr;</span>
+        <div class="arch-box purple">Tokenizer</div>
+        <span class="arch-arrow">&rarr;</span>
+        <div class="arch-box purple">AI Model</div>
+        <span class="arch-arrow">&rarr;</span>
+        <div class="arch-box green">NC Application</div>
+      </div>
+      <div class="arch-connector">
+        <span class="arch-arrow down">&uarr;&darr;</span>
+      </div>
+      <div class="arch-row">
+        <div class="arch-box" style="background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.2);color:#6366f1">CORTEX Runtime</div>
+        <span class="arch-arrow">&rarr;</span>
+        <div class="arch-box purple">NC AI Inference</div>
+        <span class="arch-arrow">&rarr;</span>
+        <div class="arch-box" style="background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.2);color:#6366f1">Agentic Loop</div>
+      </div>
+      <div class="arch-connector">
+        <span class="arch-arrow down">&uarr;&darr;</span>
+      </div>
+      <div class="arch-row">
+        <div class="arch-box pink">CPU Optimization</div>
+        <span style="color:var(--text3);font-size:.85rem;padding:0 12px">+</span>
+        <div class="arch-box pink">Optional GPU Acceleration</div>
+        <span style="color:var(--text3);font-size:.85rem;padding:0 12px">+</span>
+        <div class="arch-box pink">Cross-Platform</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FEATURES ======== -->
+<section id="features" class="section">
+  <div class="container center">
+    <div class="section-tag reveal">// capabilities</div>
+    <h2 class="section-title reveal">Built Different</h2>
+    <p class="section-sub reveal">Everything you need to generate NC applications, in one self-contained tool.</p>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Built-in AI Model</h3>
+        <p>Purpose-built AI model integrated into the NC binary. Optimized for speed and accuracy. Hardware accelerated. Cross-platform.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <h3>Zero Dependencies</h3>
+        <p>Pure C11. No Python, no pip, no npm. Compiles anywhere a C compiler exists. Dead simple.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c026d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <h3>Any Provider</h3>
+        <p>Connect to any AI provider, or run fully standalone. Your model, your rules.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#28ca42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Doc-Driven</h3>
+        <p>Give it a spec document and get a complete project back: backend, frontend, tests, all wired together.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffbd2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        </div>
+        <h3>Hardware-Accelerated Training</h3>
+        <p>Train on your NC codebase with hardware acceleration on any platform. Checkpointing built in.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Optimized Inference</h3>
+        <p>Fast generation, compact models, high-quality output, parallel processing.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff5f57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Open Source</h3>
+        <p>Apache 2.0 license. Built by DevHeal Labs AI. Free to use, modify, and distribute &mdash; forever.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(99,102,241,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
+        <h3>Agentic AI</h3>
+        <p>NC AI powers NC agents natively. Structured JSON tool-calling (<code>{"action": "tool_name", "input": {...}}</code>), Plan-Act-Observe conversation loop, trained on 40+ agentic tool-calling pairs.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(34,211,238,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <h3>Web Data Fetching</h3>
+        <p>NC AI can fetch data from the web for grounding. Real-time information retrieval via <code>gather data from URL</code> syntax. Ground your AI responses in live data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== NC AI CREATE — HIGHLIGHT ======== -->
+<section id="ai-create" class="section" style="background:var(--bg2)">
+  <div class="container center">
+    <div class="section-tag reveal" style="color:#10b981">// star feature</div>
+    <h2 class="section-title reveal"><span class="gradient-text">nc ai create</span> — Full App in One Command</h2>
+    <p class="section-sub reveal">Describe your app in plain English. The current v1 binary is validated to generate the full NC Lang + NC UI scaffold: backend, frontend, tests, docs, and a compiled frontend bundle.</p>
+    <div class="install-block reveal" style="margin:40px auto;max-width:750px">
+      <div class="install-terminal">
+        <div class="install-header">
+          <span class="terminal-dot r"></span>
+          <span class="terminal-dot y"></span>
+          <span class="terminal-dot g"></span>
+        </div>
+        <div class="install-body" style="text-align:left">
+          <code>
+            <span class="comment"># Validated on the current v1 release binary</span><br>
+            <span class="cmd">$</span> nc ai create "multi-tenant operations dashboard with role based access analytics alert center approvals and dark theme"<br>
+            <br>
+            <span class="info">NC AI — Creating Full Project (AI-Driven)</span><br>
+            <span class="dim">Engine: Built-in AI (loaded)</span><br>
+            <span class="dim">Features: dark-theme dashboard alerts</span><br>
+            <br>
+            <span class="success">Created: service.nc</span> <span class="dim">— backend scaffold</span><br>
+            <span class="success">Created: app.ncui</span> <span class="dim">— dark NC UI page scaffold</span><br>
+            <span class="success">Created: test_app.nc</span> <span class="dim">— generated test scaffold</span><br>
+            <span class="success">Created: README.md</span><br>
+            <span class="dim">Self-learn: saved to training corpus</span><br>
+            <span class="dim">Validation: generated files passed AI structural checks</span><br>
+            <span class="dim">Frontend: dist/app.html compiled successfully</span><br>
+            <br>
+            <span class="cmd">$</span> nc serve service.nc<br>
+            <span class="success">Server starts from the generated backend scaffold</span>
+          </code>
+        </div>
+      </div>
+    </div>
+    <div class="features-grid" style="margin-top:40px">
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Validated Full-Stack Scaffold</h3>
+        <p>One command produces the backend service, NC UI frontend, tests, README, and compiled frontend bundle that the current v1 binary can validate end to end.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Self-Learning AI</h3>
+        <p>Every project you create teaches the AI. Generated code is automatically added to the training corpus. The more you use it, the smarter it gets.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>Contract Validation</h3>
+        <p>NC AI validates generated files against project contracts and repairs structural problems before the frontend bundle is built.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Complex Prompt Coverage</h3>
+        <p>Complex prompts are accepted today. The current v1 binary reliably preserves the scaffold contract and high-signal features such as dashboard, dark theme, and alerts while deeper domain coverage keeps improving.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== REASON AI ======== -->
+<section id="reason" class="section" style="background:var(--bg2)">
+  <div class="container center">
+    <div class="section-tag reveal" style="color:#f59e0b">// new — reasoning engine</div>
+    <h2 class="section-title reveal"><span class="gradient-text">Reason AI</span> — Think, Don't Just Generate</h2>
+    <p class="section-sub reveal">A logic-first reasoning engine built in NC. Classifies questions, builds step-by-step reasoning chains, and returns answers with confidence scores. Runs on your CPU at zero cost &mdash; structured reasoning, not token generation.</p>
+    <div class="install-block reveal" style="margin:40px auto;max-width:750px">
+      <div class="install-terminal">
+        <div class="install-header">
+          <span class="terminal-dot r"></span>
+          <span class="terminal-dot y"></span>
+          <span class="terminal-dot g"></span>
+        </div>
+        <div class="install-body" style="text-align:left">
+          <code>
+            <span class="comment"># Run the Reason AI demo</span><br>
+            <span class="cmd">$</span> nc run nc-ai/reason-ai/reason.nc -b demo<br>
+            <br>
+            <span class="info">Reason AI v2.0 &mdash; Demo</span><br>
+            <br>
+            <span class="dim">Q1: "If a train travels 60 km in 1 hour, how long for 180 km?"</span><br>
+            <span class="success">Type: mathematical</span> <span class="dim">| Confidence: 0.85</span><br>
+            <span class="dim">&nbsp;&nbsp;Detected: travel/distance problem</span><br>
+            <span class="dim">&nbsp;&nbsp;Formula: time = distance / speed</span><br>
+            <br>
+            <span class="dim">Q2: "Why does the server crash at 90% memory?"</span><br>
+            <span class="success">Type: debugging</span> <span class="dim">| Confidence: 0.80</span><br>
+            <span class="dim">&nbsp;&nbsp;Step 1: Identify symptom &rarr; Step 6: Verify fix</span><br>
+            <br>
+            <span class="dim">Q3: "Write a function that validates user input"</span><br>
+            <span class="success">Type: code_generation</span> <span class="dim">| Confidence: 0.70</span><br>
+            <span class="dim">&nbsp;&nbsp;Parse requirements &rarr; Design &rarr; Implement &rarr; Self-review</span><br>
+            <br>
+            <span class="success">6/6 questions classified &amp; reasoned</span>
+          </code>
+        </div>
+      </div>
+    </div>
+    <div class="features-grid" style="margin-top:40px">
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="color:#f59e0b">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3>7 Reasoning Types</h3>
+        <p>Mathematical, causal, debugging, planning, comparison, code generation, and general reasoning &mdash; auto-detected from the question.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="color:#f59e0b">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Step-by-Step Chains</h3>
+        <p>Every answer includes a full reasoning chain: parse question, identify knowns, apply strategy, verify answer. Transparent and auditable.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="color:#f59e0b">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Confidence Scoring</h3>
+        <p>Each answer returns a confidence score (0.0 &ndash; 1.0). Mathematical: 0.85, debugging: 0.80, planning: 0.75. Know when to trust the answer.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="color:#f59e0b">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 10h10M7 14h6"/></svg>
+        </div>
+        <h3>REST API</h3>
+        <p>POST /reason, POST /classify, GET /demo, GET /health. Run as a standalone microservice or embed in any NC project.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== COMPARISON ======== -->
+<section id="compare" class="section">
+  <div class="container center">
+    <div class="section-tag reveal">// compare</div>
+    <h2 class="section-title reveal">Why NC AI is Different</h2>
+    <p class="section-sub reveal">NC AI is not a general-purpose AI tool — it is the built-in intelligence engine for NC Lang and NC UI. Here is how its design compares to external cloud-based coding tools.</p>
+    <div class="table-wrap reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="nc-col">NC AI</th>
+            <th>Copilot</th>
+            <th>Cloud AI ($20/mo)</th>
+            <th>Tabnine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Runs offline</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Own model</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>NC-native</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Free forever ($0/month)</td><td class="nc-col"><span class="check">&#10003;</span></td><td>$10/mo</td><td>$20/mo</td><td>$12/mo</td></tr>
+          <tr><td>Runs on CPU (no GPU)</td><td class="nc-col"><span class="check">&#10003;</span></td><td>Cloud GPU</td><td>Cloud GPU</td><td>Cloud GPU</td></tr>
+          <tr><td>Model size</td><td class="nc-col">20MB</td><td>Cloud</td><td>Cloud</td><td>Cloud</td></tr>
+          <tr><td>Full project generation</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td>Partial</td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Built-in reasoning engine</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Confidence scoring</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Knowledge graph</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Decision engine (Q-learning)</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Swarm intelligence</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Energy-based scoring</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Agentic AI (tool-calling)</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+          <tr><td>Web data fetching</td><td class="nc-col"><span class="check">&#10003;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td><td><span class="cross">&#10005;</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======== GET STARTED ======== -->
+<section id="start" class="section">
+  <div class="container center">
+    <div class="section-tag reveal">// install</div>
+    <h2 class="section-title reveal">Get Started in Seconds</h2>
+    <p class="section-sub reveal">Clone, build, generate. That's it.</p>
+    <div class="install-block reveal">
+      <div class="install-terminal">
+        <div class="install-header">
+          <span class="terminal-dot r"></span>
+          <span class="terminal-dot y"></span>
+          <span class="terminal-dot g"></span>
+        </div>
+        <div class="install-body" id="installBody">
+          <button class="copy-btn" id="copyBtn" onclick="copyInstall()">Copy</button>
+          <code>
+            <span class="comment"># Install NC (includes AI engine)</span><br>
+            <span class="cmd">$</span> curl -sSL https://raw.githubusercontent.com/nc-lang/nc/main/install.sh | bash<br>
+            <br>
+            <span class="comment"># Create your first full app</span><br>
+            <span class="cmd">$</span> nc ai create "a todo app with auth and dark theme"<br>
+            <br>
+            <span class="comment"># Or generate a code snippet</span><br>
+            <span class="cmd">$</span> nc ai generate "a REST API for users"<br>
+            <br>
+            <span class="comment"># Check AI status</span><br>
+            <span class="cmd">$</span> nc ai status
+          </code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== KNOWLEDGE DISTILLATION ======== -->
+<section id="distill" class="section" style="background:var(--bg2)">
+  <div class="container center">
+    <div class="section-tag reveal" style="color:#c026d3">// distillation</div>
+    <h2 class="section-title reveal">Learn from <span class="gradient-text">Any Teacher Model</span></h2>
+    <p class="section-sub reveal">NC AI can distill knowledge from any external model into its built-in 5M parameter model &mdash; training it to better understand NC Lang and NC UI patterns. After distillation, it works offline on your CPU with no API keys, no cloud, and no recurring cost.</p>
+    <div class="features-grid" style="margin-top:40px">
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(192,38,211,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c026d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Knowledge Distillation</h3>
+        <p>Send NC code prompts to any external teacher model. The teacher generates high-quality code. NC AI's student model trains on it and absorbs the teacher's patterns &mdash; then runs free on your CPU forever.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(192,38,211,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c026d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        </div>
+        <h3>Works Offline After</h3>
+        <p>Once distilled, NC AI runs completely offline on any CPU. No API keys, no cloud, no internet, no GPU required. The knowledge is baked into the binary. Ship it anywhere &mdash; zero recurring cost.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(192,38,211,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c026d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        </div>
+        <h3>Self-Learning Loop</h3>
+        <p>Every project created with <code>nc ai create</code> feeds back into the training corpus. Every deployment teaches the model. It gets smarter with every use.</p>
+      </div>
+    </div>
+    <div class="install-block reveal" style="margin:40px auto;max-width:750px">
+      <div class="install-terminal">
+        <div class="install-header">
+          <span class="terminal-dot r"></span>
+          <span class="terminal-dot y"></span>
+          <span class="terminal-dot g"></span>
+        </div>
+        <div class="install-body" style="text-align:left">
+          <code>
+            <span class="comment"># Distill from any local AI server</span><br>
+            <span class="cmd">$</span> nc ai distill --url http://localhost:11434/v1/chat/completions --model my-model<br>
+            <br>
+            <span class="info">NC AI — Knowledge Distillation</span><br>
+            <span class="dim">Teacher: my-model | Prompts: 40</span><br>
+            <span class="success">[1/40] Distilled: simple rest api for users (loss: 2.31)</span><br>
+            <span class="success">[2/40] Distilled: todo app with login (loss: 1.87)</span><br>
+            <span class="success">[3/40] Distilled: stock market app with predictions (loss: 1.54)</span><br>
+            <span class="dim">...</span><br>
+            <span class="success">Distillation complete — 40/40 prompts</span><br>
+            <span class="dim">Model saved: nc_ai_model_distilled.bin</span><br>
+            <br>
+            <span class="comment"># Now NC AI works offline with distilled knowledge</span><br>
+            <span class="cmd">$</span> nc ai create "blog with search" <span class="dim">— no internet needed</span>
+          </code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== NC-NATIVE ARCHITECTURE ======== -->
+<section id="nc-native" class="section">
+  <div class="container center">
+    <div class="section-tag reveal" style="color:#10b981">// nc-native</div>
+    <h2 class="section-title reveal">Written <span class="gradient-text">100% in NC</span></h2>
+    <p class="section-sub reveal">NC AI is not a C program. It's an NC application. Only the inference engine is in C — everything else (generation, training, error-fix, review, export) is pure NC code. By DevHeal Labs AI.</p>
+    <div class="features-grid" style="margin-top:40px">
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(16,185,129,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+        </div>
+        <h3>nc ai review</h3>
+        <p>AI-powered code review. Best practices, security checks, performance tips. Get a quality score for any NC file.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(16,185,129,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>nc ai check</h3>
+        <p>Validate and auto-fix NC code. Detects missing declarations, wrong syntax, and repairs them automatically.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(16,185,129,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>nc ai export</h3>
+        <p>Export your project as a standalone binary, Docker container, ZIP archive, or NC package. Ship to users instantly.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(245,158,11,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3>Reason AI</h3>
+        <p>Logic-first reasoning engine. 7 types: mathematical, causal, debugging, planning, comparison, code generation. Step-by-step chains with confidence scores.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(245,158,11,.08)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        </div>
+        <h3>Autonomous Learning</h3>
+        <p>Self-learning AI that scans codebases, counts 94K+ patterns, detects query modes, and applies Hebbian learning from every interaction. Zero config.</p>
+      </div>
+    </div>
+    <div class="install-terminal" style="margin-top:40px;max-width:700px;margin-left:auto;margin-right:auto">
+      <div class="install-header">
+        <span class="terminal-dot r"></span>
+        <span class="terminal-dot y"></span>
+        <span class="terminal-dot g"></span>
+      </div>
+      <div class="install-body" style="text-align:left">
+        <code>
+          <span class="comment"># Review your code</span><br>
+          <span class="cmd">$</span> nc ai review service.nc<br>
+          <span class="success">  [i] Add health_check endpoint</span><br>
+          <span class="success">  [i] Add middleware (cors, logging)</span><br>
+          <span class="dim">  Code Quality Score: 85/100</span><br>
+          <br>
+          <span class="comment"># Auto-fix errors</span><br>
+          <span class="cmd">$</span> nc ai check my-app/<br>
+          <span class="success">  Fixed: missing service declaration</span><br>
+          <span class="success">  Fixed: added api routes block</span><br>
+          <br>
+          <span class="comment"># Export for distribution</span><br>
+          <span class="cmd">$</span> nc ai export my-app docker<br>
+          <span class="dim">  Created: Dockerfile, docker-compose.yml</span><br>
+          <span class="dim">  Run: docker compose up --build</span><br>
+        </code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== NC ECOSYSTEM ======== -->
+<section id="ecosystem" class="section">
+  <div class="container center">
+    <div class="section-tag reveal">// ecosystem</div>
+    <h2 class="section-title reveal">Part of the NC Ecosystem</h2>
+    <p class="section-sub reveal">Ten modules. One language. Complete operational intelligence from plain English.</p>
+    <div class="eco-grid">
+      <div class="eco-card reveal">
+        <h3>NC Lang</h3>
+        <span class="eco-tag">nc.devheallabs.in</span>
+        <p>Backend APIs in plain English. The simplest way to build servers, REST APIs, and microservices.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>NC UI</h3>
+        <span class="eco-tag">ncui.devheallabs.in</span>
+        <p>Frontend in plain English. Build complete dashboards, forms, and interactive UIs effortlessly.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>NC AI</h3>
+        <span class="eco-tag">ncai.devheallabs.in</span>
+        <p>Generates both, intelligently. Describe your app and get working backend + frontend code instantly.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>Reason AI</h3>
+        <span class="eco-tag" style="color:#f59e0b">NEW</span>
+        <p>Logic-first reasoning engine. 7 reasoning types, step-by-step chains, confidence scores. Runs on your CPU at $0 cost.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>NC AI</h3>
+        <span class="eco-tag">Hybrid SSM-Graph</span>
+        <p>Neural Optimized Vector Architecture. Self-learning AI with knowledge graph and adaptive memory. 100% local inference on your CPU. Zero cost, zero cloud, zero GPU. You own your AI.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>CORTEX</h3>
+        <span class="eco-tag" style="color:#6366f1">NC-Native Runtime</span>
+        <p>NC-native NC AI runtime. Full inference pipeline written in NC. Runs on any CPU &mdash; no GPU clusters needed. Manages model loading, tokenization, and generation natively.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>Knowledge Graph</h3>
+        <span class="eco-tag">Graph Intelligence</span>
+        <p>Graph-based knowledge system. Connects concepts, traverses relationships, and scores reasoning paths. Learns from every query.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>Decision Engine</h3>
+        <span class="eco-tag">Adaptive Decisions</span>
+        <p>Classifies system states, evaluates actions by reward and risk, and learns the best response over time.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>Swarm Intelligence</h3>
+        <span class="eco-tag">Multi-Agent</span>
+        <p>Multiple AI agents with different strategies vote on the best action. Agents evolve and improve from feedback.</p>
+      </div>
+      <div class="eco-card reveal">
+        <h3>Energy Scoring</h3>
+        <span class="eco-tag">Physics-Inspired</span>
+        <p>Scores actions using energy minimization. Automatically balances exploration vs exploitation based on uncertainty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3><span>NC AI</span></h3>
+        <p>The world's first programming language with a built-in AI model. Hardware accelerated. By DevHeal Labs AI.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#how">How It Works</a>
+          <a href="#features">Features</a>
+          <a href="#compare">Compare</a>
+          <a href="#start">Get Started</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ecosystem</h4>
+          <a href="https://nc.devheallabs.in" target="_blank">NC Lang</a>
+          <a href="https://ncui.devheallabs.in" target="_blank">NC UI</a>
+          <a href="https://devheallabs.in" target="_blank">DevHeal Labs AI</a>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <a href="https://github.com/devheallabs-ai/nc-ai" target="_blank">GitHub</a>
+          <a href="https://github.com/devheallabs-ai/nc-ai/issues" target="_blank">Issues</a>
+          <a href="https://github.com/devheallabs-ai/nc-ai/discussions" target="_blank">Discussions</a>
+        </div>
+        <div class="footer-col">
+          <h4>Follow Us</h4>
+          <a href="https://x.com/DevhealL42437" target="_blank">Twitter / X</a>
+          <a href="https://www.linkedin.com/company/112978977" target="_blank">LinkedIn</a>
+          <a href="https://dev.to/devheal_labs_ai" target="_blank">Dev.to</a>
+          <a href="https://www.reddit.com/user/devheallabs-ai" target="_blank">Reddit</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 DevHeal Labs AI. All rights reserved.</span>
+      <span>Apache 2.0 License</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ======== SCRIPTS ======== -->
+<script>
+/* ---- Neural Network Canvas ---- */
+(function(){
+  const canvas=document.getElementById('heroCanvas');
+  const ctx=canvas.getContext('2d');
+  let w,h,nodes=[],mouse={x:null,y:null};
+  const NODE_COUNT=window.innerWidth<768?40:80;
+  const CONNECT_DIST=window.innerWidth<768?120:160;
+
+  function resize(){
+    w=canvas.width=canvas.offsetWidth;
+    h=canvas.height=canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  for(let i=0;i<NODE_COUNT;i++){
+    nodes.push({
+      x:Math.random()*w,
+      y:Math.random()*h,
+      vx:(Math.random()-.5)*.6,
+      vy:(Math.random()-.5)*.6,
+      r:Math.random()*2+1,
+      pulse:Math.random()*Math.PI*2
+    });
+  }
+
+  canvas.addEventListener('mousemove',e=>{
+    const r=canvas.getBoundingClientRect();
+    mouse.x=e.clientX-r.left;
+    mouse.y=e.clientY-r.top;
+  });
+  canvas.addEventListener('mouseleave',()=>{mouse.x=null;mouse.y=null});
+
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const t=Date.now()*.001;
+
+    nodes.forEach(n=>{
+      n.x+=n.vx;n.y+=n.vy;
+      if(n.x<0||n.x>w)n.vx*=-1;
+      if(n.y<0||n.y>h)n.vy*=-1;
+
+      if(mouse.x!==null){
+        const dx=n.x-mouse.x,dy=n.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<200){n.x+=dx/d*.5;n.y+=dy/d*.5;}
+      }
+
+      const p=Math.sin(t+n.pulse)*.5+.5;
+      const alpha=.3+p*.4;
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r+p,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,212,255,${alpha})`;
+      ctx.fill();
+    });
+
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x;
+        const dy=nodes[i].y-nodes[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<CONNECT_DIST){
+          const alpha=(1-d/CONNECT_DIST)*.2;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x,nodes[i].y);
+          ctx.lineTo(nodes[j].x,nodes[j].y);
+          ctx.strokeStyle=`rgba(124,58,237,${alpha})`;
+          ctx.lineWidth=.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ---- Scroll reveal ---- */
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.15});
+reveals.forEach(el=>io.observe(el));
+
+/* ---- Nav scroll ---- */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+
+/* ---- Hamburger ---- */
+document.getElementById('hamburger').addEventListener('click',function(){
+  document.getElementById('navLinks').classList.toggle('open');
+  this.classList.toggle('active');
+});
+document.querySelectorAll('#navLinks a').forEach(a=>{
+  a.addEventListener('click',()=>{document.getElementById('navLinks').classList.remove('open');});
+});
+
+/* ---- Terminal animation ---- */
+(function(){
+  const body=document.getElementById('terminalBody');
+  const cursor=document.getElementById('termCursor');
+  let started=false;
+
+  const lines=[
+    {text:'$ nc ai generate "a blog service with auth and dark dashboard"',cls:'cmd',delay:40},
+    {text:'',cls:'',delay:600},
+    {text:'[nc_ai] Model loaded',cls:'info',delay:0,pause:400},
+    {text:'\u2819 Initializing model...',cls:'info',delay:0,pause:800},
+    {text:'\u2819 Encoding prompt...',cls:'info',delay:0,pause:400},
+    {text:'\u2819 Generating code...',cls:'info',delay:0,pause:1200},
+    {text:'',cls:'',delay:300},
+    {text:'service "blog-api"',cls:'file',delay:0,pause:200},
+    {text:'version "1.0.0"',cls:'file',delay:0,pause:150},
+    {text:'',cls:'',delay:100},
+    {text:'to create_post with data:',cls:'file',delay:0,pause:200},
+    {text:'    store data into "posts"',cls:'file',delay:0,pause:150},
+    {text:'    respond with {"status": "created"}',cls:'file',delay:0,pause:150},
+    {text:'',cls:'',delay:200},
+    {text:'\u2713 Generated 42 tokens in 0.3s',cls:'success',delay:0},
+  ];
+
+  function typeWriter(text,el,cls,charDelay){
+    return new Promise(resolve=>{
+      if(charDelay===0||charDelay===undefined&&text.length===0){
+        const span=document.createElement('span');
+        if(cls)span.className=cls;
+        span.textContent=text;
+        body.insertBefore(span,cursor);
+        body.insertBefore(document.createElement('br'),cursor);
+        resolve();
+        return;
+      }
+      let i=0;
+      const span=document.createElement('span');
+      if(cls)span.className=cls;
+      body.insertBefore(span,cursor);
+      function type(){
+        if(i<text.length){
+          span.textContent+=text[i];i++;
+          setTimeout(type,charDelay);
+        }else{
+          body.insertBefore(document.createElement('br'),cursor);
+          resolve();
+        }
+      }
+      type();
+    });
+  }
+
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+  async function runDemo(){
+    body.innerHTML='';
+    body.appendChild(cursor);
+    for(const line of lines){
+      await typeWriter(line.text,body,line.cls,line.delay);
+      if(line.pause)await sleep(line.pause);
+      else await sleep(150);
+    }
+    cursor.style.display='none';
+    await sleep(4000);
+    cursor.style.display='';
+    runDemo();
+  }
+
+  const observer=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting&&!started){
+      started=true;
+      runDemo();
+    }
+  },{threshold:.3});
+  observer.observe(body);
+})();
+
+/* ---- Copy install ---- */
+function copyInstall(){
+  const text='curl -sSL https://raw.githubusercontent.com/nc-lang/nc/main/install.sh | bash\nnc ai generate "a todo app with dark theme"\nnc ai status';
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);
+  });
+}
+</script>
+
+</body>
+</html>
