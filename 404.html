@@ -3,111 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 — NC AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:#0a0a0f;
-  color:#e0e0e0;
-  font-family:'Inter',sans-serif;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  position:relative;
-}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.3}
-.content{position:relative;z-index:1;text-align:center;padding:2rem}
-.code{
-  font-family:'JetBrains Mono',monospace;
-  font-size:clamp(6rem,15vw,12rem);
-  font-weight:900;
-  background:linear-gradient(135deg,#2b90ff,#5aa9ff,#2b90ff);
-  background-size:200% 200%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:gradShift 4s ease infinite;
-  line-height:1;
-  margin-bottom:1rem;
-}
-@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.title{
-  font-size:clamp(1.2rem,3vw,2rem);
-  font-weight:700;
-  color:#c0c0c0;
-  margin-bottom:.5rem;
-}
-.subtitle{
-  font-size:clamp(.9rem,2vw,1.1rem);
-  color:#666;
-  margin-bottom:2.5rem;
-  font-family:'JetBrains Mono',monospace;
-}
-.home-btn{
-  display:inline-block;
-  padding:.9rem 2.5rem;
-  background:linear-gradient(135deg,#2b90ff,#5aa9ff);
-  color:#fff;
-  text-decoration:none;
-  border-radius:50px;
-  font-weight:700;
-  font-size:1rem;
-  transition:transform .3s,box-shadow .3s;
-}
-.home-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 30px rgba(43,144,255,.4),0 0 60px rgba(90,169,255,.2);
-}
-.pulse{
-  position:absolute;
-  width:300px;height:300px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(43,144,255,.08),transparent 70%);
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  animation:pulse 3s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
-
-/* brand CTA: keep white label legible (WCAG AA) */
-.btn-primary,.nav-cta,.cta-btn,.btn.primary,.hero-cta,.cta-primary{background-image:linear-gradient(135deg,#1552b8,#1f6fd0)!important;color:#fff!important}
-</style>
+<title>Page not found &mdash; NC AI</title>
+<meta name="description" content="The page you are looking for does not exist or has been moved.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<canvas id="bg"></canvas>
-<div class="pulse"></div>
-<div class="content">
-  <div class="code">404</div>
-  <div class="title">Neural pathway not found</div>
-  <div class="subtitle">The requested route does not exist in this model's weights.</div>
-  <a href="/" class="home-btn">Return to NC AI</a>
-</div>
-<script>
-const c=document.getElementById('bg'),x=c.getContext('2d');
-function resize(){c.width=innerWidth;c.height=innerHeight}
-resize();addEventListener('resize',resize);
-const dots=[];
-for(let i=0;i<50;i++)dots.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:2});
-function draw(){
-  x.clearRect(0,0,c.width,c.height);
-  dots.forEach(d=>{
-    d.x+=d.vx;d.y+=d.vy;
-    if(d.x<0||d.x>c.width)d.vx*=-1;
-    if(d.y<0||d.y>c.height)d.vy*=-1;
-    x.beginPath();x.arc(d.x,d.y,d.r,0,Math.PI*2);
-    x.fillStyle='rgba(43,144,255,.6)';x.fill();
-  });
-  for(let i=0;i<dots.length;i++)for(let j=i+1;j<dots.length;j++){
-    const dx=dots[i].x-dots[j].x,dy=dots[i].y-dots[j].y,dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<150){x.beginPath();x.moveTo(dots[i].x,dots[i].y);x.lineTo(dots[j].x,dots[j].y);
-    x.strokeStyle=`rgba(90,169,255,${1-dist/150})`;x.lineWidth=.5;x.stroke();}
-  }
-  requestAnimationFrame(draw);
-}
-draw();
-</script>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="https://ncai.devheallabs.in/" class="nav-logo"><img src="logo.png" alt="DevHeal Labs AI" class="logo-icon"> DevHeal<span>Labs AI</span></a>
+    <ul class="nav-links">
+      <li><a href="https://devheallabs.in/#products">Products</a></li>
+      <li><a https://ncai.devheallabs.in/>Technology</a></li>
+      <li><a https://ncai.devheallabs.in/>Research</a></li>
+      <li><a https://ncai.devheallabs.in/>Enterprise</a></li>
+      <li><a https://ncai.devheallabs.in/>Developers</a></li>
+      <li><a https://ncai.devheallabs.in/>Company</a></li>
+      <li><a href="mailto:support@devheallabs.in" class="nav-cta">Talk to DevHeal</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle colour theme" title="Toggle colour theme">
+      <svg class="icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+    </button>
+    <button class="hamburger" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<section class="page-hero" style="border-bottom:none">
+  <div class="container">
+    <div class="kicker">Error 404</div>
+    <h1>Page not found</h1>
+    <p class="lead">The page you are looking for does not exist or has been moved. Let's get you back on track.</p>
+    <div class="hero-buttons" style="margin-top:28px">
+      <a href="https://ncai.devheallabs.in/" class="btn btn-primary">Back to home</a>
+      <a https://ncai.devheallabs.in/ class="btn btn-ghost">Explore the platform</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="container">
+    <div class="sec-label">Try these instead</div>
+    <div class="grid-3">
+      <a https://ncai.devheallabs.in/ class="card"><h3 style="font-size:1rem;margin-bottom:6px">Technology</h3><p style="color:var(--muted);font-size:.88rem;margin:0">What's shipping today, what's in development, and what's still research.</p></a>
+      <a https://ncai.devheallabs.in/ class="card"><h3 style="font-size:1rem;margin-bottom:6px">White Paper</h3><p style="color:var(--muted);font-size:.88rem;margin:0">The measured results behind our research projects, with their limits.</p></a>
+      <a https://ncai.devheallabs.in/ class="card"><h3 style="font-size:1rem;margin-bottom:6px">Developers</h3><p style="color:var(--muted);font-size:.88rem;margin:0">Build your first AI system with NC — install, build, run, deploy.</p></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="f-logo">DevHeal<span> Labs AI</span></div><div class="f-tag">Autonomous by Design</div><p>Engineering infrastructure for autonomous AI systems.</p></div>
+      <div class="f-col"><h5>Platform</h5><ul><li><a https://ncai.devheallabs.in/>Technology</a></li><li><a https://ncai.devheallabs.in/>Research</a></li><li><a https://ncai.devheallabs.in/>White Paper</a></li><li><a https://ncai.devheallabs.in/>Roadmap</a></li><li><a https://ncai.devheallabs.in/>Patents &amp; IP</a></li></ul></div>
+      <div class="f-col"><h5>Products</h5><ul><li><a href="https://nc.devheallabs.in" target="_blank" rel="noopener">NC Language</a></li><li><a href="https://ncui.devheallabs.in" target="_blank" rel="noopener">NC UI</a></li><li><a href="https://ncai.devheallabs.in" target="_blank" rel="noopener">NC AI</a></li></ul></div>
+      <div class="f-col"><h5>Company</h5><ul><li><a https://ncai.devheallabs.in/>Enterprise</a></li><li><a https://ncai.devheallabs.in/>About</a></li><li><a href="https://devheallabs.in/company/#contact">Contact</a></li></ul></div>
+      <div class="f-col"><h5>Follow</h5><ul><li><a href="https://github.com/devheallabs-ai" target="_blank" rel="noopener">GitHub</a></li><li><a href="https://www.linkedin.com/company/112978977" target="_blank" rel="noopener">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="legal-block"><strong>DEVHEAL LABS AI PRIVATE LIMITED</strong><br>CIN: U62011TS2026PTC219968</div>
+    <div class="footer-bottom"><span>&copy; 2026 DevHeal Labs AI Private Limited. All rights reserved.</span></div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
 </body>
 </html>
