@@ -5,15 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NC AI — Chat</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+/* bridge page-local token names onto the shared design system */
+:root{
+  --pink:var(--accent-2);
+  --bg3:var(--surface-2);
+  --glass-border:var(--glass-brd);
+  --text2:var(--text-muted);
+  --text3:var(--text-dim);
+  --bg-card:var(--surface);
+  --bg-editor:var(--code-bg);
+  --gradient:var(--grad-accent);
+}
+</style>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0a0a0f;--bg2:#0e0e16;--bg3:#14141e;
-  --cyan:#2b90ff;--purple:#5aa9ff;--pink:#9fd0ff;
-  --text:#e0e0e8;--text2:#9090a0;--text3:#606070;
-  --grad:linear-gradient(135deg,#2b90ff,#5aa9ff);
-  --glass:rgba(255,255,255,.04);--glass-border:rgba(255,255,255,.08);
-}
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;display:flex;flex-direction:column}
 
