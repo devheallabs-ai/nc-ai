@@ -289,6 +289,51 @@ curl -fsSL https://nc.devheallabs.in/install.sh | sh
   </div>
 </section>
 
+<!-- Who it's for -->
+<section class="sec-alt" id="who">
+  <div class="container">
+    <div class="sec-label sr">Who it&rsquo;s for</div>
+    <h2 class="sec-title sr d1">Teams where the constraint is the gatekeeper, not the model</h2>
+    <p class="sec-desc wide sr d2">NC AI is for workloads that are not permitted to reach a hosted provider, or must keep running when the network does not. The business value is control, privacy and cost predictability &mdash; not peak output quality, which a large hosted model still wins.</p>
+    <div class="grid-3 sr d2"><div class="card"><h3 style="margin:0 0 8px;font-size:1rem;font-weight:800">Security architects</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Asked to approve an AI workload that would send regulated data to a third party. Inference that never leaves the machine changes the answer.</p></div><div class="card"><h3 style="margin:0 0 8px;font-size:1rem;font-weight:800">Regulated-industry platform owners</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Residency and contractual rules constrain where inference may run. No account, no API key, no outbound call.</p></div><div class="card"><h3 style="margin:0 0 8px;font-size:1rem;font-weight:800">Edge and disconnected systems</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Connectivity is intermittent or absent. A hosted call that fails is a capability that was never really there.</p></div></div>
+  </div>
+</section>
+
+<!-- Proof -->
+<section id="proof">
+  <div class="container">
+    <div class="sec-label sr">Proof</div>
+    <h2 class="sec-title sr d1">What you can verify yourself</h2>
+    <p class="sec-desc wide sr d2">The claim is that it runs on your machine with nothing sent anywhere. Verify it by disconnecting the network.</p>
+    <div class="grid-4 sr d2"><div class="stat"><div class="stat-val">CPU</div><div class="stat-label">no GPU required</div></div><div class="stat"><div class="stat-val">~20MB</div><div class="stat-label">model on disk</div></div><div class="stat"><div class="stat-val">0</div><div class="stat-label">accounts or API keys</div></div><div class="stat"><div class="stat-val">Local</div><div class="stat-label">data stays on the machine</div></div></div>
+    <div class="callout sr d3" style="margin-top:24px"><strong>Read this before you evaluate.</strong> A model of this size on a CPU is materially less capable than a large hosted model on most generative tasks. Where output quality is the product, use a hosted provider &mdash; we will say so. Where the constraint is regulatory, contractual or connectivity, local wins.</div>
+  </div>
+</section>
+
+<!-- Status & Roadmap -->
+<section class="sec-alt" id="roadmap">
+  <div class="container">
+    <div class="sec-label sr">Status &amp; roadmap</div>
+    <h2 class="sec-title sr d1">What ships today, and what is direction</h2>
+    <p class="sec-desc wide sr d2">Every item is labelled by what it actually is. Beta means it works and is ready to evaluate, with rough edges we fix quickly. Research means a direction, not something you can use yet.</p>
+    <div class="grid-3 sr d2"><div class="card"><span class="badge badge-beta">Beta</span><h3 style="margin:14px 0 8px;font-size:1rem;font-weight:800">Local CPU inference</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">The engine inside the NC binary: built-in model, no serving stack, works offline. Review and validation of NC code included.</p></div><div class="card"><span class="badge badge-beta">Beta</span><h3 style="margin:14px 0 8px;font-size:1rem;font-weight:800">Reasoning &amp; project generation</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">A logic-first reasoning engine with confidence scores, and full-project scaffolding from a description. Both work; both are early.</p></div><div class="card"><span class="badge badge-experimental">Experimental</span><h3 style="margin:14px 0 8px;font-size:1rem;font-weight:800">Knowledge distillation</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Training the built-in model from an external teacher so it follows NC patterns better. Runs, not yet dependable.</p></div></div>
+  </div>
+</section>
+
+<!-- Cross-site -->
+<section class="cta-band" id="built-by">
+  <div class="container">
+    <h2 class="sr">Built by DevHeal Labs AI &mdash; Autonomous by Design</h2>
+    <p class="sr d1">NC AI is one part of a stack where AI and agents are primitives of the programming model, not libraries on top. Everything runs from one binary on ordinary hardware, with no external model provider required.</p>
+    <div class="hero-buttons sr d2" style="margin-bottom:0">
+      <a href="https://devheallabs.in/products/" class="btn btn-primary">Explore the ecosystem</a>
+      <a href="https://devheallabs.in/design-partner/" class="btn btn-ghost">Discuss a pilot</a>
+      <a href="https://github.com/devheallabs-ai/nc-ai" class="btn btn-ghost" target="_blank" rel="noopener">Read the source</a>
+    </div>
+  </div>
+</section>
+
+
 <footer>
   <div class="container">
     <div class="footer-grid">
